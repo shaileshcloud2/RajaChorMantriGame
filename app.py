@@ -51,4 +51,3 @@ if st.button("Submit"):
 # Refresh button to restart the game
 if st.button("Refresh Game"):
     reset_game()
-    # No need for st.experimental_rerun(); Streamlit updates automatically when session state changes
