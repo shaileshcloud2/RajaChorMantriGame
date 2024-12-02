@@ -15,12 +15,19 @@ if "chor_guess" not in st.session_state:
     st.session_state.chor_guess = ""
 if "result" not in st.session_state:
     st.session_state.result = None
+if "refresh_requested" not in st.session_state:
+    st.session_state.refresh_requested = False  # Used to trigger a clean reset
 
 # Define a function to reset the game
 def reset_game():
     st.session_state.assigned_roles = assign_roles()
     st.session_state.chor_guess = ""
     st.session_state.result = None
+    st.session_state.refresh_requested = False
+
+# Handle refresh button click
+if st.session_state.refresh_requested:
+    reset_game()
 
 # Fetch roles from session state
 assigned_roles = st.session_state.assigned_roles
@@ -48,7 +55,7 @@ if st.button("Submit"):
     st.write(f"**Mantri:** {mantri}")
     st.write(f"**Chor:** {chor}")
 
-# Refresh button to restart the game
+# Refresh Game button
 if st.button("Refresh Game"):
-    reset_game()
-    # No need for st.experimental_rerun(); Streamlit updates automatically when session state changes
+    st.session_state.refresh_requested = True  # Mark refresh as requested
+    st.experimental_rerun()  # Trigger immediate rerun to apply the reset
